@@ -20,4 +20,3 @@ def open_close_bg(action: str) -> None:
     GPIO.output(garage_door_pin, GPIO.HIGH)
     time.sleep(0.5)
     GPIO.output(garage_door_pin, GPIO.LOW)
-
