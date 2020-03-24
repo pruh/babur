@@ -8,3 +8,4 @@ services:
       - "6001:6001"
     devices:
       - "/dev/gpiomem:/dev/gpiomem"
+    env_file: secrets.env

@@ -2,10 +2,11 @@
 
 from flask import Flask, jsonify, request, Response
 from flask_httpauth import HTTPBasicAuth
-import argparse
+import configargparse
 import logging
 from logging.handlers import RotatingFileHandler
 import garage
+import os
 
 
 port = 6001
@@ -42,11 +43,11 @@ def verify(username, password):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-u', '--username', action='store', type=str,
-                        required=True, help='HTTP basic auth username')
-    parser.add_argument('-p', '--password', action='store', type=str,
-                        required=True, help='HTTP basic auth password')
+    parser = configargparse.ArgumentParser()
+    parser.add_argument('-u', '--username', action='store', type=str, required=True,
+                        env_var='babur_username', help='HTTP basic auth username')
+    parser.add_argument('-p', '--password', action='store', type=str, required=True,
+                        env_var='babur_password', help='HTTP basic auth password')
     parser.add_argument('-l', '--log-file-path', action='store', type=str, help='File for logs')
     return parser.parse_args()
 
