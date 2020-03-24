@@ -14,9 +14,9 @@ app = Flask(__name__)
 auth = HTTPBasicAuth()
 
 
-@app.route('/', methods=['POST'])
+@app.route('/gactions/webhook', methods=['POST'])
 @auth.login_required
-def post():
+def handle_webhook():
     json_data = request.get_json(force=True)
     app.logger.debug(f'webhook request {json_data}')
     if 'queryResult' in json_data \
@@ -33,6 +33,16 @@ def post():
 
     app.logger.debug(f'no matching handlers for request')
     return jsonify({'fulfillmentText': 'Please say it again.'})
+
+
+@app.route('/smart-home/garage', methods=['POST'])
+@auth.login_required
+def toggle_garage_door():
+    json_data = request.get_json(force=True)
+    app.logger.debug(f'smart home garage request {json_data}')
+    ser_type = json_data['service-type']
+    garage.open_close(ser_type)
+    return jsonify({'status': 'success'})
 
 
 @auth.verify_password
